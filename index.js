@@ -58,6 +58,7 @@ class ShopifyToken {
    * @param {String} options.apiKey The API Key for the app
    * @param {String} [options.accessMode] The API access mode
    * @param {Number} [options.timeout] The request timeout
+   * @param {https.Agent|http.Agent} [options.proxyAgent] The proxy agent for all https calls
    */
   constructor(options) {
     if (
@@ -75,6 +76,7 @@ class ShopifyToken {
     this.sharedSecret = options.sharedSecret;
     this.redirectUri = options.redirectUri;
     this.apiKey = options.apiKey;
+    this.proxyAgent = 'proxyAgent' in options ? options.proxyAgent : null;
   }
 
   /**
@@ -180,6 +182,10 @@ class ShopifyToken {
         hostname: shop,
         method: 'POST'
       });
+
+      if (this.proxyAgent !== null) {
+        request.agent = this.proxyAgent;
+      }
 
       let timer = setTimeout(() => {
         request.abort();
