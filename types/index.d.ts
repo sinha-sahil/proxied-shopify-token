@@ -1,3 +1,7 @@
+/// <reference types="node" />
+import { Agent } from 'http';
+import { Agent as HttpsAgent } from 'https';
+
 declare namespace ShopifyToken {
   export interface ShopifyTokenOptions {
     // The redirect URL for the Oauth2 flow
@@ -12,6 +16,8 @@ declare namespace ShopifyToken {
     timeout?: number;
     // API access mode
     accessMode?: string;
+    // http or https proxy agent to be passed in https calls
+    agent?: Agent | HttpsAgent | null;
   }
 
   export interface OfflineAccessTokenData {
@@ -50,6 +56,7 @@ declare class ShopifyToken {
    * @param {String} options.apiKey The API Key for the app
    * @param {String} [options.accessMode] The API access mode
    * @param {Number} [options.timeout] The request timeout
+   * @param {https.Agent|http.Agent} [options.agent] The agent for all http/https calls
    */
   constructor(options: ShopifyToken.ShopifyTokenOptions);
   /**
